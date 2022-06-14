@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.meedawn.flower.model.mapper.MemberMapper">
+	
+	<select id="login" parameterType="map" resultType="MemberDto">
+		select username, userid, userpwd, email, exp, lv, platform
+		from member
+		where userid = #{userId} and userpwd = #{userPwd} and enabled IS NOT NULL
+	</select>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select COUNT(userid)
+		from member
+		where userid = #{id}
+	</select>
+	
+	<insert id="register" parameterType="MemberDto">
+		insert into member (userid, userpwd, username, gender, email, exp, lv, joindate, platform, enabled)
+		values (#{userId}, #{userPwd}, #{userName}, #{gender}, #{email}, 0, 0, now(),#{platform}, 0)
+	</insert>
+	
+	<select id="pwdcheck" parameterType="map" resultType="int">
+		select count(userid)
+		from member
+		where userid = #{userId} and userpwd = #{userPwd}
+	</select>
+	
+	<update id="pwdchange" parameterType="map">
+		update member set userpwd=#{userPwd} where userid=#{userId}
+	</update>
+	
+	<select id="naverIdCheck" parameterType="string" resultType="int">
+		select count(userid)
+		from meedawn.member 
+		where userid = #{naverId} and platform = 'naver'
+	</select>
+	
+	<insert id="naverRegister" parameterType="MemberDto">
+		insert into member (userid, userpwd, username, gender, email, exp, lv, joindate, enabled, platform, refresh_token, refresh_token_date)
+		values (#{userId}, #{userPwd}, #{userName}, #{gender}, #{email}, 0, 0, now(), 0, 'naver', #{refresh_token}, now())
+	</insert>
+	
+	<select id="naverLogin" parameterType="map" resultType="MemberDto">
+		select username, SUBSTRING_INDEX(email, '@', 1) as userid, email, exp, lv, platform
+		from member
+		where userid = #{userId} and email = #{email} and platform='naver'
+	</select>
+	
+	<update id="changeRefreshToken" parameterType="map">
+		update meedawn.member set refresh_token = #{refresh_token}, refresh_token_date = now()
+		where userid = #{naverId} and platform='naver'
+	</update>
+	
+	
+	<!-- 카카오 관련 -->
+	
+	<!-- 카카오 아이디 존재 확인 -->
+	<select id="kakaoIdCheck" parameterType="string" resultType="int">
+		select count(email)
+		from meedawn.member 
+		where email = #{email} and platform = 'kakao'
+	</select>
+	
+	<insert id="kakaoRegister" parameterType="MemberDto">
+		insert into member (userid, userpwd, username, gender, email, exp, lv, joindate, enabled, platform, refresh_token, refresh_token_date)
+		values (#{userId}, #{userPwd}, #{userId}, #{gender}, #{email}, 0, 0, now(), 0, 'kakao', #{refresh_token}, now())
+	</insert>
+	
+	<select id="kakaoLogin" parameterType="map" resultType="MemberDto">
+		select SUBSTRING_INDEX(email, '@', 1) as userid, SUBSTRING_INDEX(email, '@', 1) as username, email, exp, lv, platform
+		from member
+		where email = #{email} and platform='kakao'
+	</select>
+</mapper>

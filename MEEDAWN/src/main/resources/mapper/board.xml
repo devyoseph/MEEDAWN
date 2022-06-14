@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meedawn.flower.model.mapper.BoardMapper">
+<!-- 	<resultMap type="BoardDto" id="boardList">
+		<result column="id" property="id"/>
+		<result column="subject" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="like" property="like"/>
+		<result column="member_userid" property="userid"/>
+		<result column="create_date" property="create_date"/>
+		<collection property="boardinfos" column="articleno=articleno" javaType="list" ofType="FileInfoDto" select="fileInfoList"/>
+	</resultMap> -->
+	
+	<select id="list" parameterType="map" resultType="BoardDto">
+		select id, subject, content, username,
+		if(platform = 'site', member_userid,
+		(select SUBSTRING_INDEX(email, '@', 1) from meedawn.member where member_userid = userid)) userid
+		,create_date, platform
+		from meedawn.board as b
+		order by create_date desc
+		limit #{start}, #{last}
+	</select>
+	
+	<insert id="write" parameterType="BoardDto" >
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select IF((SELECT MAX(id)+1 from meedawn.board) IS NULL,0,max(id)+1) from meedawn.board
+		</selectKey>
+		
+		insert into meedawn.board values(#{id}, #{subject}, #{content}, if(#{platform} = 'site', #{userid},
+		(select userid from meedawn.member where email = concat(#{userid}, '@', #{platform}, '.com') and platform = #{platform})),	
+		#{username}, now(), #{platform})
+	</insert>
+	
+	<update id="edit" parameterType="BoardDto" >
+		update meedawn.board set subject = #{subject}, content = #{content}
+		where id = #{id} and
+		member_userid = if(platform = 'site', #{userid},
+			(select userid from meedawn.member where 
+				email = concat(#{userid}, '@', #{platform}, '.com' ))
+			)
+		
+	</update>
+	
+	<delete id="delete" parameterType="int" >
+		delete from meedawn.board
+		where id = #{id} 
+	</delete>
+</mapper>
