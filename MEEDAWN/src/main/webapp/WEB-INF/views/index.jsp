@@ -68,10 +68,10 @@
 						class="bx bx-file-blank"></i> <span>Communication</span></a></li>
 				<li><a href="#portfolio" class="nav-link scrollto"><i
 						class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
+				<li><a href="#contact" class="nav-link scrollto"><i
+						class="bx bx-envelope"></i> <span>Chat</span></a></li>
 				<li><a href="#services" class="nav-link scrollto"><i
 						class="bx bx-server"></i> <span>Services</span></a></li>
-				<li><a href="#contact" class="nav-link scrollto"><i
-						class="bx bx-envelope"></i> <span>Contact</span></a></li>
 			</ul>
 		</nav>
 		<!-- .nav-menu -->
@@ -133,6 +133,7 @@
 							<p class="fst-italic">비밀번호 변경</p>
 							<form class="form-group">
 								<input type="hidden" id="userId" value="${userInfo.userId }">
+								<input type="hidden" id="userName" value="${userInfo.userName }">
 								<p> - 현재 비밀번호</p><input type="password" class="form-control" id="original-pwd">
 								<p> - 변경 비밀번호</p><input type="password" class="form-control" id="new-pwd1">
 								<p> - 비밀번호 확인</p><input type="password" class="form-control" id="new-pwd2">
@@ -264,7 +265,7 @@
 
 
 		<!-- ======= Facts Section ======= -->
-		<section id="facts" class="facts">
+		<!-- <section id="facts" class="facts">
 			<div class="container" data-aos="fade-up">
 
 				<div class="section-title">
@@ -317,11 +318,11 @@
 				</div>
 
 			</div>
-		</section>
+		</section> -->
 		<!-- End Facts Section -->
 
 		<!-- ======= Skills Section ======= -->
-		<section id="skills" class="skills section-bg">
+	<!-- 	<section id="skills" class="skills section-bg">
 			<div class="container" data-aos="fade-up">
 
 				<div class="section-title">
@@ -394,7 +395,7 @@
 				</div>
 
 			</div>
-		</section>
+		</section> -->
 		<!-- End Skills Section -->
 
 		<!-- ======= communication Section ======= -->
@@ -719,7 +720,39 @@
 			</div>
 		</section>
 		<!-- End Portfolio Section -->
+		
+		<!-- ======= Contact Section ======= -->
+		<section id="contact" class="contact">
+			<div class="container" data-aos="fade-up">
 
+				<div class="section-title">
+					<h2>Chat</h2>
+				</div>
+				
+				<table id="roomList" class="table table-hover text-center">
+				    <thead>
+				      <tr>
+				        <th style="width:100%">채팅방이 존재하지 않습니다</th>
+				      </tr>
+				    </thead>
+			   </table>
+				
+				<div>
+					<table class="inputTable">
+						<tr>	
+							<th>방 제목</th>
+							<th><input type="text" name="roomName" id="roomName"></th>
+							<th><button id="createRoom">방 만들기</button></th>
+						</tr>
+					</table>
+				</div>
+		
+			</div>
+		</section>
+		<!-- End Contact Section -->
+		
+		
+		
 		<!-- ======= Services Section ======= -->
 		<section id="services" class="services">
 			<div class="container" data-aos="fade-up">
@@ -856,7 +889,7 @@
 			</div>
 		</section>
 		<!-- End Services Section -->
-
+		
 		<!-- ======= Testimonials Section ======= -->
 		<section id="testimonials" class="testimonials section-bg">
 			<div class="container" data-aos="fade-up">
@@ -962,80 +995,6 @@
 		</section>
 		<!-- End Testimonials Section -->
 
-		<!-- ======= Contact Section ======= -->
-		<section id="contact" class="contact">
-			<div class="container" data-aos="fade-up">
-
-				<div class="section-title">
-					<h2>Contact</h2>
-				</div>
-
-				<div class="row mt-1">
-
-					<div class="col-lg-4">
-						<div class="info">
-							<div class="address">
-								<i class="bi bi-geo-alt"></i>
-								<h4>Location:</h4>
-								<p>A108 Adam Street, New York, NY 535022</p>
-							</div>
-
-							<div class="email">
-								<i class="bi bi-envelope"></i>
-								<h4>Email:</h4>
-								<p>info@example.com</p>
-							</div>
-
-							<div class="phone">
-								<i class="bi bi-phone"></i>
-								<h4>Call:</h4>
-								<p>+1 5589 55488 55s</p>
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="col-lg-8 mt-5 mt-lg-0">
-
-						<form action="forms/contact.php" method="post" role="form"
-							class="php-email-form">
-							<div class="row">
-								<div class="col-md-6 form-group">
-									<input type="text" name="name" class="form-control" id="name"
-										placeholder="Your Name" required>
-								</div>
-								<div class="col-md-6 form-group mt-3 mt-md-0">
-									<input type="email" class="form-control" name="email"
-										id="email" placeholder="Your Email" required>
-								</div>
-							</div>
-							<div class="form-group mt-3">
-								<input type="text" class="form-control" name="subject"
-									id="subject" placeholder="Subject" required>
-							</div>
-							<div class="form-group mt-3">
-								<textarea class="form-control" name="message" rows="5"
-									placeholder="Message" required></textarea>
-							</div>
-							<div class="my-3">
-								<div class="loading">Loading</div>
-								<div class="error-message"></div>
-								<div class="sent-message">Your message has been sent.
-									Thank you!</div>
-							</div>
-							<div class="text-center">
-								<button type="submit">Send Message</button>
-							</div>
-						</form>
-
-					</div>
-
-				</div>
-
-			</div>
-		</section>
-		<!-- End Contact Section -->
 
 	</main>
 	<!-- End #main -->
@@ -1089,98 +1048,6 @@
 
 </body>
 
-<!-- ======= Resume Section ======= -->
-<!-- 		<section id="resume" class="resume">
-			<div class="container" data-aos="fade-up">
-
-				<div class="section-title">
-					<h1>자유게시판</h1>
-					<p> &lt;공지사항이 들어갈 곳&gt;</p>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-6">
-						<h3 class="resume-title">Sumary</h3>
-						<div class="resume-item pb-0">
-							<h4>Brandon Johnson</h4>
-							<p>
-								<em>Innovative and deadline-driven Graphic Designer with 3+
-									years of experience designing and developing user-centered
-									digital/print marketing material from initial concept to final,
-									polished deliverable.</em>
-							</p>
-							<ul>
-								<li>Portland par 127,Orlando, FL</li>
-								<li>(123) 456-7891</li>
-								<li>alice.barkley@example.com</li>
-							</ul>
-						</div>
-
-						<h3 class="resume-title">Education</h3>
-						<div class="resume-item">
-							<h4>Master of Fine Arts &amp; Graphic Design</h4>
-							<h5>2015 - 2016</h5>
-							<p>
-								<em>Rochester Institute of Technology, Rochester, NY</em>
-							</p>
-							<p>Qui deserunt veniam. Et sed aliquam labore tempore sed
-								quisquam iusto autem sit. Ea vero voluptatum qui ut dignissimos
-								deleniti nerada porti sand markend</p>
-						</div>
-						<div class="resume-item">
-							<h4>Bachelor of Fine Arts &amp; Graphic Design</h4>
-							<h5>2010 - 2014</h5>
-							<p>
-								<em>Rochester Institute of Technology, Rochester, NY</em>
-							</p>
-							<p>Quia nobis sequi est occaecati aut. Repudiandae et iusto
-								quae reiciendis et quis Eius vel ratione eius unde vitae rerum
-								voluptates asperiores voluptatem Earum molestiae consequatur
-								neque etlon sader mart dila</p>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<h3 class="resume-title">Professional Experience</h3>
-						<div class="resume-item">
-							<h4>Senior graphic design specialist</h4>
-							<h5>2019 - Present</h5>
-							<p>
-								<em>Experion, New York, NY </em>
-							</p>
-							<ul>
-								<li>Lead in the design, development, and implementation of
-									the graphic, layout, and production communication materials</li>
-								<li>Delegate tasks to the 7 members of the design team and
-									provide counsel on all aspects of the project.</li>
-								<li>Supervise the assessment of all graphic materials in
-									order to ensure quality and accuracy of the design</li>
-								<li>Oversee the efficient use of production project budgets
-									ranging from $2,000 - $25,000</li>
-							</ul>
-						</div>
-						<div class="resume-item">
-							<h4>Graphic design specialist</h4>
-							<h5>2017 - 2018</h5>
-							<p>
-								<em>Stepping Stone Advertising, New York, NY</em>
-							</p>
-							<ul>
-								<li>Developed numerous marketing programs (logos,
-									brochures,infographics, presentations, and advertisements).</li>
-								<li>Managed up to 5 projects or tasks at a given time while
-									under pressure</li>
-								<li>Recommended and consulted with clients on the most
-									appropriate graphic design</li>
-								<li>Created 4+ design presentations and proposals a month
-									for clients and account managers</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</section> -->
-		<!-- End Resume Section -->
 </html>
 
 

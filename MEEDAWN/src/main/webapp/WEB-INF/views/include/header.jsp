@@ -690,9 +690,108 @@
   			})
   		}
     	});
+  	
+  	
+    	var ws;
+  		
+    	//방 입장
+    	function goRoom(number){
+    		console.log("방 클릭? "+number+" 에 입장 ");
+    	}	
+    	
+    	//방 목록 불러오기
+    	function getRoom(){
+    		$.ajax({
+  				url: "${root}/chat/getRoom",
+  				type: "POST",
+  				dataType: 'json',
+  				contentType:'application/json; charset=utf-8',
+  				statusCode:{
+    					200: function(result){
+    						if(result != null){
+    			    			var tag = `<thead>
+		    							      <tr>
+				    					        <th style="width:10%">번호</th>
+				    					        <th style="width:55%">방 이름</th>
+				    					        <th style="width:15%">정원</th>
+				    					        <th style="width:20%"></th>
+				    					      </tr>
+    					    			  </thead>			    
+			    					      <tbody id="roomContainer">
+			    					    
+			    					      </tbody>`;
+			    				$("#roomList").empty().append(tag);
+			    				
+			     				result.forEach(function(d){
+    			    				let rn = d.roomName.trim();
+    			    				let roomNumber = d.roomNumber;
+    			    				let participatePerson = d.participatePerson;
+    			    				tag = `<tr>
+    			    							<td class='num'>${'${roomNumber+1}'}</td>
+    			    							<td class='room'>${'${rn}'}</td>
+    			    							<td class='participatePerson'>${'${participatePerson}'}/5</td>
+    			    							<td class='go'><button type='button' id='goRoom-${'${roomNumber}'}'>참여</button></td>
+    			    						</tr>`;
+    			    					
+    			    				$("#roomList").append(tag);
+  									
+     			    				$(`#goRoom-${'${roomNumber}'}`).on("click", function(){
+      						   			goRoom(`${'${roomNumber}'}`);
+      						   		}); 
+    			    			});
+	 	
+    			    			console.log("방 정보 로드");
+    			    		}else{
+    			    			console.log("방 정보를 불러오지 못했습니다.");	    			
+    			    		}
+    					},
+    					404: function() {
+    						console.log("방을 불러오지 못했습니다.");
+    					}
+  				}
+  			})
+    	}		    				
+		
+    	//방 만들기 버튼 클릭
+   		$("#createRoom").click(function(){
+   			var msg = {	roomName : $('#roomName').val()	};
+
+   			$.ajax({
+  				url: "${root}/chat/createRoom?roomName=" + $('#roomName').val(), //방 이름을 던져준다.
+  				type: "POST",
+  				dataType: 'json',
+  				contentType:'application/json; charset=utf-8',
+  				statusCode:{
+    					200: function(result){
+    						alert("방생성 : "+result.roomNumber);
+    						return true;
+    					},
+    					304: function() {
+    						alert("세션이 만료되었습니다.");
+    						location.href="${root}/"
+  							return false;
+  						},
+  						429: function() { 
+  							alert("방이 꽉찼습니다.");
+    						return;
+    					},
+    					500: function() {
+    						alert("서버에러.");
+    					},
+    					404: function() {
+    						alert("페이지없다.");
+    					}
+  				}
+  			})
+
+   			$("#roomName").val("");
+   		});	
+    	
+    	getRoom();
+
   	})
   	
-  	
+	
   </script>
   
 </head>

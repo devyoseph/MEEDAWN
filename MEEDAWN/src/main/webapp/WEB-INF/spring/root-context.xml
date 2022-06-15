@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:component-scan base-package="com.meedawn.flower.config, com.meedawn.flower.model, com.meedawn.flower.aop"/>
+	<context:component-scan base-package="com.meedawn.flower.config, com.meedawn.flower.model, com.meedawn.flower.aop, com.meedawn.flower.handler"/>
 	<aop:aspectj-autoproxy/>
 	
 	<!-- jdbc 경로에서 이름들 바꿔줘야한다. -->
