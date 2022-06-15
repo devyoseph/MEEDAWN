@@ -694,9 +694,125 @@
   	
     	var ws;
   		
-    	//방 입장
+    	/* 소켓 부분 */
+    	function wsOpen(roomNumber){
+    		//웹소켓 전송시 현재 방의 번호를 넘겨서 보낸다.
+    		ws = new WebSocket("ws://" + location.host + "/meedawn/chatting/"+roomNumber);
+    		wsEvt();
+    	}
+    		
+    	function wsEvt() {
+    		ws.onopen = function(data){
+    			//소켓이 열리면 동작
+    		}
+    		
+    		ws.onmessage = function(data) {
+    			//메시지를 받으면 동작
+    			var msg = data.data;
+    			if(msg != null && msg.trim() != ''){
+    				var d = JSON.parse(msg);
+    				if(d.type == "getId"){
+    					var si = d.sessionId != null ? d.sessionId : "";
+    					if(si != ''){
+    						$("#sessionId").val(si); 
+    					}
+    				}else if(d.type == "message"){
+    					if(d.sessionId == $("#sessionId").val()){
+    						$("#chat-box").append("<p class='me'>나 :" + d.msg + "</p>");	
+    					}else{
+    						$("#chat-box").append("<p class='others'>" + d.userName + " :" + d.msg + "</p>");
+    					}
+    						
+    				}else{
+    					console.warn("unknown type!")
+    				}
+    			}
+    		}
+
+    		document.addEventListener("keypress", function(e){
+    			if(e.keyCode == 13){ //enter press
+    				send();
+    			}
+    		});
+    	}
+
+    	function send() {
+    		var option ={
+    			type: "message",
+    			roomNumber: $("#roomNumber").val(),
+    			sessionId : $("#sessionId").val(),
+    			userName : $("#userName").val(),
+    			msg : $("#chatting").val()
+    		}
+    		ws.send(JSON.stringify(option))
+    		$('#chatting').val("");
+    	}
+    	
+    	$('#chatting-send-btn').on("click", function(){
+			send();    		
+    	})
+    	
+    	/* 방 부분 */
+    	//방 실제 생성
+    	function startRoom(roomNumber, roomName){
+    		$('#roomList').hide();
+    		$('#roomNumber').val(roomNumber);
+    	 	$('#chat-box').show();
+    		$('#create-room-bar').hide();
+    		$('#chatting-bar').show();
+    		$('#room-title-content').text("[ "+roomName+" ]");
+    		$('#room-title').show();
+    		wsOpen(roomNumber);
+    	}
+    	
+    	//방 실제 입장
+    	function openRoom(roomNumber, roomName){
+    		$('#roomList').hide();
+    		$('#roomNumber').val(roomNumber);
+    		$('#chat-box').show();
+    		$('#create-room-bar').hide();
+    		$('#chatting-bar').show();
+    		$('#room-title-content').text("[ "+roomName+" ]");
+    		$('#room-title').show();
+    		wsOpen(roomNumber);
+    	}
+    	
+    	//방 들어갈 수 있는지 확인
     	function goRoom(number){
-    		console.log("방 클릭? "+number+" 에 입장 ");
+    		console.log(number+" 방에 입장 시도");
+    		
+    		$.ajax({
+  				url: "${root}/chat/goRoom?roomNumber=" + number, //방 번호를 던져준다.
+  				type: "POST",
+  				dataType: 'json',
+  				contentType:'application/json; charset=utf-8',
+  				statusCode:{
+    					200: function(result){
+    						console.log(result+" 방정보 획득")
+    						openRoom(result.roomNumber, result.roomName);
+    					},
+    					304: function() {
+    						alert("세션이 만료되었습니다.");
+    						location.href="${root}/"
+  							return false;
+  						},
+  						406: function() { 
+  							alert("방의 인원이 꽉찼습니다.");
+    						return;
+    					},
+    					409: function() { 
+  							alert("방에 참여하지 못했습니다.");
+  							getRoom();
+    						return;
+    					},
+    					500: function() {
+    						alert("서버에러.");
+    					},
+    					404: function() {
+    						alert("페이지없다.");
+    					}
+  				}
+  			})
     	}	
     	
     	//방 목록 불러오기
@@ -730,7 +846,7 @@
     			    							<td class='num'>${'${roomNumber+1}'}</td>
     			    							<td class='room'>${'${rn}'}</td>
     			    							<td class='participatePerson'>${'${participatePerson}'}/5</td>
-    			    							<td class='go'><button type='button' id='goRoom-${'${roomNumber}'}'>참여</button></td>
+    			    							<td class='go'><button type='button' class='btn btn-primary' id='goRoom-${'${roomNumber}'}'>참여</button></td>
     			    						</tr>`;
     			    					
     			    				$("#roomList").append(tag);
@@ -763,7 +879,7 @@
   				contentType:'application/json; charset=utf-8',
   				statusCode:{
     					200: function(result){
-    						alert("방생성 : "+result.roomNumber);
+    						startRoom(result.roomNumber, result.roomName);
     						return true;
     					},
     					304: function() {
@@ -786,6 +902,40 @@
 
    			$("#roomName").val("");
    		});	
+    	
+    	//나가기 버튼: 들어가기의 반대
+    	$('#chatting-exit-btn').on("click", function(){
+    		$('#roomList').show();
+    	 	$('#chat-box').hide();
+    	 	$('#chat-box').val("");
+    		$('#create-room-bar').show();
+    		$('#chatting-bar').hide();
+    		$('#room-title-content').text("");
+    		$('#room-title').hide();
+    		console.log("방 나가기 버튼 클릭 : "+$('#roomNumber').val());
+    		$.ajax({
+  				url: "${root}/chat/exitRoom?roomNumber=" + $('#roomNumber').val(), //방 번호를 던진다
+  				type: "POST",
+  				dataType: 'json',
+  				contentType:'application/json; charset=utf-8',
+  				statusCode:{
+    					200: function(result){
+    						$('#roomNumber').val("");
+    					},
+  						429: function() { 
+    					},
+    					500: function() {
+    						alert("서버에러.");
+    					},
+    					404: function() {
+    						alert("페이지없다.");
+    					}
+  				}
+  			})
+    		getRoom();
+    	});
+    	
+    	
     	
     	getRoom();
 

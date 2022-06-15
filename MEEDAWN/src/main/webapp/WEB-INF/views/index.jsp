@@ -724,9 +724,13 @@
 		<!-- ======= Contact Section ======= -->
 		<section id="contact" class="contact">
 			<div class="container" data-aos="fade-up">
-
 				<div class="section-title">
 					<h2>Chat</h2>
+				</div>
+				
+				<!-- 방 제목 -->
+				<div id="room-title" class="text-center" style="display:none;">
+					<h2 id="room-title-content"></h2>
 				</div>
 				
 				<table id="roomList" class="table table-hover text-center">
@@ -737,16 +741,24 @@
 				    </thead>
 			   </table>
 				
-				<div>
-					<table class="inputTable">
-						<tr>	
-							<th>방 제목</th>
-							<th><input type="text" name="roomName" id="roomName"></th>
-							<th><button id="createRoom">방 만들기</button></th>
-						</tr>
-					</table>
+				<!-- 채팅방 -->
+				<div id="chat-box" class="ml-auto mr-auto rounded" style="height: 350px; width: 80%; border: 3px solid Royalblue; border-radius: 20px; display:none;"></div>
+				
+				
+				<div class="text-center" id="create-room-bar">
+				  	<span>방 제목</span>
+				  	<input type="text" name="roomName" id="roomName">
+				  	<input type="hidden" name="roomNumber" id="roomNumber">
+					<input type="hidden" name="sessionId" id="sessionId">
+					<button type="button" id="createRoom" class="btn btn-success">방 만들기</button>
 				</div>
-		
+				
+				<!--  채팅 바 -->
+				<div class="text-center mt-3" id="chatting-bar" style="display:none;">
+					<input type="text" name="chatting" id="chatting" style="width: 50%;">
+					<button type="button" id="chatting-send-btn" class="btn btn-primary">전송</button>
+					<button type="button" id="chatting-exit-btn" class="btn btn-danger">나가기</button>
+				</div>
 			</div>
 		</section>
 		<!-- End Contact Section -->
