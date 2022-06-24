@@ -73,4 +73,12 @@
 		from member
 		where email = #{email} and platform='kakao'
 	</select>
+	
+	
+	<!-- 소셜 로그인 공통 id 검색 -->
+	<select id="getSocialId" parameterType="map" resultType="String">
+		select userid
+		from member
+		where email = concat(#{id},'@',#{platform},'.com')
+	</select>
 </mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.meedawn.flower.model.mapper.SnapshotMapper">
+	
+	<select id="getBasic" resultType="SnapshotDto">
+		SELECT
+		    `snapshot`.`filename`,
+		    `snapshot`.`path`,
+		    `snapshot`.`host`,
+		    `snapshot`.`type`,
+		    `snapshot`.`order`,
+		    `snapshot`.`member_userid`
+		FROM `meedawn`.`snapshot`
+		WHERE member_userid = 'admin'
+		ORDER BY `order` ASC
+	</select>
+	
+	<select id="getUser" resultType="SnapshotDto">
+		SELECT
+		    `snapshot`.`filename`,
+		     SUBSTRING_INDEX(path,'/webapp/',-1) `path`,
+		    `snapshot`.`type`,
+		    `snapshot`.`order`,
+		    `snapshot`.`member_userid`
+		FROM `meedawn`.`snapshot`
+		WHERE member_userid = #{member_userid}
+		ORDER BY `order` ASC
+	</select>
+	
+	<select id="getPath" resultType="String">
+		SELECT
+		    `snapshot`.`path`
+		FROM `meedawn`.`snapshot`
+		WHERE `member_userid` = #{member_userid} and `order` = #{order}
+	</select>
+	
+	<insert id="register" parameterType="SnapshotDto">
+		<selectKey keyProperty="order" resultType="int" order="BEFORE">
+			select IF(
+			(SELECT MAX(`order`) from meedawn.snapshot WHERE member_userid=#{member_userid}) IS NULL,
+			 0,
+			MAX(`order`)+1
+			)
+			from meedawn.snapshot
+			WHERE member_userid=#{member_userid}
+		</selectKey>
+	
+	
+		INSERT INTO `meedawn`.`snapshot`
+			(
+			`filename`,
+			`path`,
+			`host`,
+			`type`,
+			`order`,
+			`member_userid`
+			)
+			
+			VALUES
+			
+			(
+			#{filename},
+			#{path},
+			#{host},
+			#{type},
+			#{order},
+			#{member_userid}
+			)
+	</insert>
+</mapper>

@@ -23,4 +23,7 @@ public interface MemberService {
 	int kakaoIdCheck(String email) throws Exception;
 	int kakaoRegister(MemberDto member) throws Exception;
 	MemberDto kakaoLogin(String userId, String email) throws Exception;
+	
+	//공통
+	String getSocialId(String id, String platform) throws Exception;
 }

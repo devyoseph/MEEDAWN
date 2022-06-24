@@ -28,7 +28,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <link href="resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="resources/css/style.css" rel="stylesheet">
@@ -84,7 +83,16 @@
   			}else{
   				last_toggle = 1;
   			};
+  			
+  			window.scrollTo(0,0);
   		})
+  		
+  		//엔터버튼 누르면 로그인
+  		$('#login-userPwd').on("keyup",function(e){
+  			if(e.keyCode == 13){
+  				$('#login-btn').click();
+  			 }
+  		});
   		
   		$('#join').on("click", function(){
   			if(join_slider(join_toggle, last_toggle)){
@@ -92,12 +100,15 @@
   			}else{
   				last_toggle = 2;	
   			}
+  			
+  			window.scrollTo(0,0);
   		})
   		
   		// 원래 true false 형식으로 만들었다가 이전 페이지 값을 기록하는 식으로 바꿔 더 개선
   		function login_slider(now, last){
   			if(now!=last){
   				$('#login').attr("data-slide-to", "1");
+  				$('')
   				return false
   			} else {
   				$('#login').attr("data-slide-to", "0");
@@ -235,6 +246,7 @@
   			
   		})
   		
+  		//회원가입 버튼 클릭
   		$('#user-register-btn').on("click", function(){
   			let pwd_temporary = $('#register-userPwd').val();
   			if(pwd_temporary.length < 4 || pwd_temporary.length > 20){
@@ -322,14 +334,15 @@
   	  				last_page = 0;
   	  			}else {
   	  				$(this).attr("data-slide-to", "1");
-  	  		/* 		$('#start-container').attr("class", "carousel-item");
- 					$('#my-info-container').attr("class", "carousel-item active");
- 					$('#my-info-container').attr("data-aos", "zoom-in", "data-aos-delay", "50");  */
   	  				last_page = my_page;
   	  			}
   				
   				
   		})
+  		
+  		$('#id-nim').on("click", function(){
+  			$("#my-info").click();
+  		});
   		
   		$('#new-pass-btn').on("click", function(){
   			let pwd_input = $('#original-pwd').val();
@@ -938,7 +951,184 @@
     	
     	
     	getRoom();
-
+		
+    	
+    	
+    	/******************
+    		Snapshot
+    	 ******************/
+    	 
+    	 /* form: 집어넣는 이미지 html 틀 */    	 
+    	 
+    	 function snapshotMake(filename, path, type, order){
+			let txt = `
+			<div class="portfolio-item filter-${'${type}'}">
+				<div class="m-3 portfolio-wrap" style="width:30%; height:150px; float: left; display:flex;
+		            justify-content:center; align-items:center; border-radius: 1em;">
+					<img src="${'${path}'}"
+						class="img-fluid" alt="" style="display: block; margin: 0px auto;">
+					<div class="portfolio-info">
+						<h4>${'${filename}'}</h4>
+						<p>${'${type}'}</p>
+						<div class="portfolio-links">
+							<a href="${'${path}'}"
+								data-gallery="portfolioGallery" class="portfolio-lightbox"
+								title="${'${filename}'}"><i class="bx bx-plus"></i></a>
+								
+							<span class="portfolio-details-lightbox snapshot-img-download" id="snapshot-img-download-${'${order}'}"
+								title="Portfolio Details"><i
+								class="bx bx-link"></i></span>
+							<!--	
+							<span class="portfolio-details-lightbox snapshot-img-delete" id="snapshot-img-delete-${'${order}'}"
+								title="Portfolio Details"><i
+								class="bx bx-trash"></i></span>
+							-->
+						</div>
+					</div>
+				</div>
+			</div>
+			`;
+			return txt;
+    	 }
+    	 
+    	function snapshot_add_event(){
+    		$('.snapshot-img-download').on('click', function(){
+    			let order = $(this).attr('id').replace('snapshot-img-download-','');
+    			
+       		 		let data = {
+							 	order: order,
+							 	userId: $('#userId').val(),
+							 	platform : $('#board-register-platform').val()
+				 			};
+       		 		location.href="${root}/snapshot/download?userId="+$('#userId').val()+"&order="+order+"&platform="+platform;
+       		 	
+    		})
+    	};
+    	
+    	
+    	 $('#my-capture-btn').on("click", function(){
+    		 $('#my-capture-edit-btn').show();
+    		 $('#my-capture-add-btn').show();
+    		 $('#my-capture-btn').hide();
+    		 
+    		 $('#snapshot-main-container').empty();
+    	 });
+    	
+    	
+    	 $('#basic-capture-btn').on("click", function(){
+    		 $('#my-capture-edit-btn').hide();
+    		 $('#my-capture-add-btn').hide();
+    		 $('#my-capture-btn').show();
+    		 
+    		 $.ajax({
+   				url: "${root}/snapshot/basic",
+   				type: "POST",
+   				dataType: 'json',
+   				contentType:'application/json; charset=utf-8',
+   				statusCode:{
+     					200: function(result){
+     						$('#snapshot-main-container').empty();
+     						let txt_all = '';
+     						result.forEach(function(data){
+			    				let filename = data.filename.trim();
+			    				let path = data.path;
+			    				let type = data.type;
+			    				let order = data.order;
+			    				txt_all += snapshotMake(filename, path, type, order);
+     						});
+     						
+			    			$('#snapshot-main-container').append(txt_all);
+			    			snapshot_add_event();
+     					},
+   						429: function() { 
+     					},
+     					500: function() {
+     						alert("서버에러.");
+     					},
+     					404: function() {
+     						alert("페이지없다.");
+     					}
+   				}
+   			})
+    	 });
+    	 $('#my-capture-btn').on("click", function(){
+    		 let data = {
+    					 	userId: $('#userId').val(),
+    					 	platform: $('#board-register-platform').val()
+    		 			};
+    		 $.ajax({
+    				url: "${root}/snapshot/user",
+    				type: "POST",
+    				dataType: 'json',
+    				contentType:'application/json; charset=utf-8',
+    				data: JSON.stringify(data),
+    				statusCode:{
+      					200: function(result){
+      						$('#snapshot-main-container').empty();
+      						let txt_all = '';
+      						result.forEach(function(data){
+ 			    				let filename = data.filename.trim();
+ 			    				let path = data.path;
+ 			    				let type = data.type;
+ 			    				let order = data.order;
+ 			    				txt_all += snapshotMake(filename, path, type, order);
+      						});
+      						
+ 			    			$('#snapshot-main-container').append(txt_all);
+ 			    			snapshot_add_event();
+      					},
+    					429: function() { 
+      					},
+      					500: function() {
+      						alert("서버에러.");
+      					},
+      					404: function() {
+      						alert("페이지없다.");
+      					}
+    				}
+    			});
+    	 });
+    	 
+    	 $('#snapshot-modal-register').on("click", function(){
+    		 //파일과 JSON을 묶어 보내기
+    		 let data = {
+    						filename: $('#snapshot-add-title').val(),
+    						type: $('#snapshot-add-type').val()
+    		 			};
+    		
+    		 let formData = new FormData();
+    		 
+    		 formData.append('file', $('#snapshot-file-upload')[0].files[0]); //파일을 넣고
+    		 formData.append('key', new Blob([ JSON.stringify(data) ], {type : "application/json"})); //data를 다시 넣어줌
+    		 
+    		 console.log(formData);
+    		 $.ajax({
+    				url: "${root}/snapshot/register",
+    				type: "POST",
+    				processData: false,
+    	            contentType:false,
+    	            data: formData,
+    				statusCode:{
+      					200: function(result){
+      						$('#snapshot-add-title').val("");
+      						$('#snapshot-add-type').val("");
+      						$('#snapshot-file-upload').val("");
+      						alert("파일 업로드 성공");
+      					},
+    					429: function() { 
+      					},
+      					500: function() {
+      						alert("서버에러.");
+      					},
+      					404: function() {
+      						alert("페이지없다.");
+      					}
+    				}
+    			});
+    			
+    	 });
+    	 
+    	 $('#basic-capture-btn').click();
   	})
   	
 	

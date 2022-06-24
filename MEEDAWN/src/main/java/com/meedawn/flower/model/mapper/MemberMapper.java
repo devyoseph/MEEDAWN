@@ -23,4 +23,7 @@ public interface MemberMapper {
 	int kakaoIdCheck(String email) throws Exception;
 	int kakaoRegister(MemberDto member) throws Exception;
 	MemberDto kakaoLogin(Map<String, String> map) throws Exception;
+	
+	//공통
+	String getSocialId(Map<String, String> map) throws Exception;
 }

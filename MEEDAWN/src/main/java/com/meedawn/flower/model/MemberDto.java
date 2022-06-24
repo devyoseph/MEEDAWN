@@ -5,7 +5,6 @@ import javax.validation.constraints.*;
 public class MemberDto {
 	
 	@NotNull
-	@Size(min = 4)
 	private String userId;
 	
 	@NotEmpty

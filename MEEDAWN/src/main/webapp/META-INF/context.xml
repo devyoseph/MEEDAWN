@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
+<Context allowCasualMultipartParsing="true" path="/">
 	<Resource name="jdbc/meedawn" auth="Container" type="javax.sql.DataSource" 
 			maxTotal="100" maxIdle="30" maxWaitMillis="10000" 
 			username="meedawn" password="Meedawn1234!" driverClassName="com.mysql.cj.jdbc.Driver" 	
 			url="jdbc:mysql://localhost:3306/meedawn?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/> 
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    
+    <Resources cachingAllowed="true" cacheMaxSize="100000" />
 </Context>

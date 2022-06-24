@@ -94,4 +94,12 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.kakaoLogin(map);
 	}
 
+	@Override
+	public String getSocialId(String id, String platform) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("platform", platform);
+		return mapper.getSocialId(map);
+	}
+
 }
