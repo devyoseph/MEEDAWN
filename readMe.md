@@ -4,6 +4,8 @@
 
 ## 1. 웹사이트 제작
 
+* 커뮤니티 사이트의 기능을 구현한 웹사이트를 제작했습니다.
+
 ​                  
 
 ## 2. 요구사항 정의서
@@ -29,7 +31,50 @@
 
 <img src="readMe.assets/image-20220624143022065.png" alt="image-20220624143022065"  />
 
+​                  
+
+## 4. 클래스 다이어그램
+
+![newfile.cld](../../Downloads/newfile.cld.jpg)
+
 ​                                
 
-## 4. 화면 설계서
+## 5. 화면 설계서
 
+​               
+
+ ### 1) 메인 화면
+
+<img src="readMe.assets/image-20220625141523995.png" alt="image-20220625141523995" style="zoom: 25%;" />
+
+​                                  
+
+### 2) 회원가입/로그인
+
+<img src="readMe.assets/image-20220625141613849.png" alt="image-20220625141613849" style="zoom:25%;" />
+
+<img src="readMe.assets/image-20220625141633282.png" alt="image-20220625141633282" style="zoom:25%;" />
+
+​              
+
+### 3) 게시판
+
+<img src="readMe.assets/image-20220625141835580.png" alt="image-20220625141835580" style="zoom:25%;" />
+
+​             
+
+### 4) 갤러리 기능
+
+<img src="readMe.assets/image-20220625141916401.png" alt="image-20220625141916401" style="zoom:25%;" />
+
+​                
+
+### 5) 채팅방 기능
+
+<img src="readMe.assets/image-20220625141945278.png" alt="image-20220625141945278" style="zoom:25%;" />
+
+​                         
+
+### 6) 사이트 소개
+
+<img src="readMe.assets/image-20220625142037760.png" alt="image-20220625142037760" style="zoom:25%;" />

@@ -169,23 +169,23 @@
 
 			<c:if test="${userInfo eq null }">
 				<div class="carousel-item">
-					<div class="container">
+					<div class="container text-center">
 						<form id="login-form" action="" method="post">
 
-							<div class="form-group text-left">
+							<div class="form-group">
 								<label for="login-userId">아이디</label><br> <input
-									type="text" class="form-control" id="login-userId"
+									type="text" class="form-control ml-auto mr-auto" id="login-userId" style="width: 25%;"
 									name="userId">
 							</div>
 
-							<div class="form-group text-left">
+							<div class="form-group">
 								<label for="login-userPwd">비밀번호</label><br> <input
-									type="password" class="form-control" id="login-userPwd"
+									type="password" class="form-control ml-auto mr-auto" id="login-userPwd" style="width: 25%;"
 									name="userPwd">
 							</div>
 
-							<div class="form-group text-center">
-								<button type="button" class="btn btn-outline-primary"
+							<div class="form-group">
+								<button type="button" class="btn btn-outline-primary" style="width: 25%;"
 									id="login-btn">로그인</button>
 							</div>
 
@@ -197,76 +197,73 @@
 				<div class="carousel-item">
 					<div class="container">
 
-						<form id="register-form" method="post">
+						<form id="register-form" class="text-center" method="post">
 
-							<div class="form-group text-left">
+							<div class="form-group text-center">
 								<label for="register-userId">아이디</label><br> <input
-									type="text" class="form-control" id="register-userId"
+									type="text" class="form-control ml-auto mr-auto" id="register-userId" style="width: 25%;"
 									name="userId">
 							</div>
 
 
-							<div class="form-group text-left">
+							<div class="form-group text-center">
 								<label for="register-userName">닉네임</label><br> <input
-									type="text" class="form-control" id="register-userName"
+									type="text" class="form-control ml-auto mr-auto" id="register-userName" style="width: 25%;"
 									name="userName">
 							</div>
 
-							<div class="form-group text-left">
+							<div class="form-group text-center">
 								<label for="register-userPwd">비밀번호</label><br> <input
-									type="password" class="form-control" id="register-userPwd"
+									type="password" class="form-control ml-auto mr-auto" id="register-userPwd" style="width: 25%;"
 									name="userPwd">
 							</div>
 
-							<div class="form-group text-left">
+							<div class="form-group text-center">
 								<label for="register-userPwd2">비밀번호 확인</label><br> <input
-									type="password" class="form-control" id="register-userPwd2"
+									type="password" class="form-control ml-auto mr-auto" id="register-userPwd2" style="width: 25%;"
 									name="userPwd2">
 							</div>
 
-							<div class="form-group text-left">
-								<label for="register-gender">성별</label>
-								<div class="d-flex justify-content-around">
-									<div>
+							<div class="form-group text-center">
+								<div>
+									<div class="ml-auto mr-auto text-center">
 										<input type="radio" id="register-gender-m" name="userGender"
 											value="M" style="margin-right: 5px;"><label
 											for="register-gender-m">남자</label>
-									</div>
-									<div>
 										<input type="radio" id="register-gender-w" name="userGender"
-											value="W" style="margin-right: 5px;"><label
-											for="register-gender-w">여자</label>
+										value="W" style="margin-right: 5px;"><label
+										for="register-gender-w">여자</label>
 									</div>
 								</div>
 							</div>
 
-							<div class="form-group text-left">
+							<div class="form-group text-center">
 								<label for="register-userEmail">이메일</label><br> <input
-									type="email" class="form-control" id="register-userEmail"
+									type="email" class="form-control ml-auto mr-auto" id="register-userEmail" style="width: 25%;"
 									name="userEmail">
 							</div>
 
 							<div class="form-group">
-								<a id="register-msg"></a>
+								<a id="register-msg" style="font-size: 10px;"></a>
 							</div>
 
 							<!-- 회원가입 버튼 -->
-							<div class="form-group">
-								<button type="button"
-									class="btn btn-outline-primary float-right"
-									id="user-register-btn">회원가입</button>
-							</div>
+							
+							<button type="button"
+								class="btn btn-outline-primary" style="font-size: 5px; width: 10%; height: 30px;"
+								id="user-register-btn">가입</button>
+						
 							<!-- 네이버 로그인, 카카오 로그인-->
-							<div class="form-group">
-								<a href="${root }/naver/register" class="float-right"><img
-									src="resources/img/naver/btnW.png" style="width: 20%;"></a>
-							</div>
+							
+							<a href="${root }/naver/register" class=""><img
+								src="resources/img/naver/btnW.png" style="width: 10%; height: 7%;"></a>
+							
 							<!-- 카카오 로그인-->
-							<div class="form-group">
-								<a href="${root }/kakao/register" class="float-left"><img
-									src="resources/img/kakao/ko/kakao_login_medium_narrow.png"
-									style="width: 80%;"></a>
-							</div>
+							
+							<a href="${root }/kakao/register" class=""><img
+								src="resources/img/kakao/ko/kakao_login_medium_narrow.png"
+								style="width: 10%; height: 7%;"></a>
+							
 
 							<!--로그인 버튼을 누르면 로그인이 되고 있다는 자바스크립트 사용
               <button class="btn btn-primary" disabled>
