@@ -35,7 +35,7 @@
 
 ## 4. 클래스 다이어그램
 
-![newfile.cld](../../Downloads/newfile.cld.jpg)
+![image-20220625142438246](readMe.assets/image-20220625142438246.png)
 
 ​                                
 
